@@ -126,9 +126,9 @@
     </build>
 
     <scm>
-        <connection>scm:git:https://github.com/PAXSTORE/paxstore-openapi-java-sdk.git</connection>
-        <developerConnection>scm:git:https://github.com/PAXSTORE/paxstore-openapi-java-sdk.git</developerConnection>
-        <url>scm:git:https://github.com/PAXSTORE/paxstore-openapi-java-sdk.git</url>
+        <connection>scm:git:https://github.com/PAXSTORE/paxstore-signature-provider.git</connection>
+        <developerConnection>scm:git:https://github.com/PAXSTORE/paxstore-signature-provider.git</developerConnection>
+        <url>scm:git:https://github.com/PAXSTORE/paxstore-signature-provider.git</url>
     </scm>
 
     <distributionManagement>
