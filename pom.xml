@@ -24,7 +24,11 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.build.timestamp.format>yyyyMMdd</maven.build.timestamp.format>
-		<javadoc.opts>-Xdoclint:none</javadoc.opts>
+        <release-plugin.version>2.5.2</release-plugin.version>
+        <gpg-plugin.version>1.5</gpg-plugin.version>
+        <javadoc-plugin.version>2.10.4</javadoc-plugin.version>
+        <source-plugin.version>2.2.1</source-plugin.version>
+        <javadoc.opts>-Xdoclint:none</javadoc.opts>
     </properties>
 
     <licenses>
@@ -56,47 +60,6 @@
                     <skipTests>true</skipTests>
                 </configuration>
             </plugin>
-			<plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-release-plugin</artifactId>
-                <version>2.5.2</version>
-                <configuration>
-                    <arguments>-DskipTests</arguments>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <version>2.2.1</version>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <goals>
-                            <goal>jar-no-fork</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.10.4</version>
-				<configuration>
-					<encoding>UTF-8</encoding>
-					<aggregate>true</aggregate>
-					<charset>UTF-8</charset>
-					<docencoding>UTF-8</docencoding>
-					<additionalparam>${javadoc.opts}</additionalparam>
-				</configuration>
-				<executions>
-					<execution>
-						<id>attach-javadocs</id>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -105,25 +68,76 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-gpg-plugin</artifactId>
-                <version>1.5</version>
-                <executions>
-                    <execution>
-                        <id>sign-artifacts</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>sign</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <keyname>PAXSTORE-SUPPORT</keyname>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <!-- Source -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>${source-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <!-- Javadoc -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>${javadoc-plugin.version}</version>
+                        <configuration>
+                            <show>private</show>
+                            <nohelp>true</nohelp>
+                            <charset>${project.build.sourceEncoding}</charset>
+                            <encoding>${project.build.sourceEncoding}</encoding>
+                            <docencoding>${project.build.sourceEncoding}</docencoding>
+                            <additionalparam>${javadoc.opts}</additionalparam>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <!-- GPG -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>${gpg-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <keyname>Derek</keyname>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-release-plugin</artifactId>
+                        <version>${release-plugin.version}</version>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
     <scm>
         <connection>scm:git:https://github.com/PAXSTORE/paxstore-signature-provider.git</connection>
