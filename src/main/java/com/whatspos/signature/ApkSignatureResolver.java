@@ -6,7 +6,7 @@ package com.whatspos.signature;
 public interface ApkSignatureResolver {
 
     /**
-     * Is apk signed based on the apk data.
+     * Check if the application is signed based on the application file.
      *
      * @param apkData the apk data
      * @return the boolean
@@ -29,6 +29,15 @@ public interface ApkSignatureResolver {
      * @return the byte [ ]
      */
     byte[] buildApkSignatureFile(byte[] workCert, byte[] signature);
+
+    /**
+     * This interface is used for validate the uploaded PUK.
+     *
+     * @param originalSignatureData  the signature data send to the signature server
+     * @param decryptedSignatureData the data decrypted by the PUK based on the signed data return from the signature server
+     * @return the boolean
+     */
+    boolean validateEncryptedSignatureData(String originalSignatureData, String decryptedSignatureData);
 
     /**
      * Provider name.
